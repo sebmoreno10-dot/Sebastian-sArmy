@@ -49,7 +49,8 @@ async function callClaude(decision, agentPrompt) {
   try {
     const response = await client.messages.create({
       model: MODEL,
-      max_tokens: 500,
+      max_tokens: 1024,
+      thinking: { type: 'disabled' },
       messages: [
         {
           role: 'user',
@@ -57,6 +58,10 @@ async function callClaude(decision, agentPrompt) {
         }
       ]
     });
+
+    if (response.stop_reason === 'max_tokens') {
+      console.error('Claude response truncated by max_tokens');
+    }
 
     const textBlock = response.content.find((block) => block.type === 'text');
     return textBlock ? textBlock.text : '';
