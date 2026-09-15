@@ -5,7 +5,7 @@ const cors = require('cors');
 const validateDecision = require('./agents');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -14,7 +14,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.post('/validate', async (req, res) => {
+app.post('/api/validate', async (req, res) => {
   const { decision } = req.body;
 
   if (!decision || typeof decision !== 'string') {
